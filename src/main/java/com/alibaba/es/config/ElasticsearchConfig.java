@@ -14,7 +14,7 @@ public class ElasticsearchConfig {
     private String hostlist;
 
     @Bean(destroyMethod = "close")
-    public RestHighLevelClient getRestHighLevelClient() {
+    public RestHighLevelClient restHighLevelClient() {
         String[] hosts = hostlist.split(",");
         HttpHost[] hostArray = new HttpHost[hosts.length];
         for (int i = 0; i < hostArray.length; i++) {

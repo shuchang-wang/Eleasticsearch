@@ -109,7 +109,7 @@ public class TestDocument {
             System.out.println(getResponse.getSourceAsString());//以String获取数据
             System.out.println(getResponse.getSourceAsBytes());//以bytes获取数据
             System.out.println(getResponse.getSourceAsMap());//以Map获取数据
-            System.out.println(getResponse.getSourceAsMap().get("user"));//获取Map中的数据
+            System.out.println(getResponse.getSourceAsMap().get("user"));//获取Map中的user数据
         } else {
             System.out.println("获取失败");
         }
@@ -229,14 +229,14 @@ public class TestDocument {
 
     @Test
     public void testUpdate() throws IOException {
-//        POST /test_post/_doc/3/_update
+//        POST /test_post/_doc/3/_update  或者  POST /test_post/_update/3
 //        {
 //            "doc": {
 //                  "user":"tomas Lee"
 //              }
 //        }
         //1.构建请求
-        UpdateRequest updateRequest = new UpdateRequest("test_post", "3");
+        UpdateRequest updateRequest = new UpdateRequest("test_post", "4");
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("user", "tomas Lee");
         updateRequest.doc(jsonMap);
@@ -298,7 +298,7 @@ public class TestDocument {
     @Test
     public void testDelete() throws IOException {
         //1.创建请求
-        DeleteRequest deleteRequest = new DeleteRequest("test_post", "3");
+        DeleteRequest deleteRequest = new DeleteRequest("test_post", "1");
         //2.执行
         DeleteResponse deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
         //3.处理结果
