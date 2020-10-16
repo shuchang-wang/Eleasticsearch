@@ -2,6 +2,7 @@ package com.alibaba.es;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.admin.indices.close.CloseIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
@@ -9,7 +10,9 @@ import org.elasticsearch.action.support.ActiveShardCount;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.*;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -315,9 +318,9 @@ public class TestIndex {
         //构建请求
         CloseIndexRequest closeIndexRequest = new CloseIndexRequest("my_index");
         //执行
-        CloseIndexResponse closeIndexResponse = client.indices().close(closeIndexRequest, RequestOptions.DEFAULT);
+        AcknowledgedResponse acknowledgedResponse = client.indices().close(closeIndexRequest, RequestOptions.DEFAULT);
         //处理响应
-        boolean acknowledged = closeIndexResponse.isAcknowledged();
+        boolean acknowledged = acknowledgedResponse.isAcknowledged();
         System.out.println(acknowledged);
     }
 
@@ -329,10 +332,10 @@ public class TestIndex {
         //构建请求
         CloseIndexRequest closeIndexRequest = new CloseIndexRequest("my_index");
         //执行
-        ActionListener<CloseIndexResponse> listener = new ActionListener<CloseIndexResponse>() {
+        ActionListener<AcknowledgedResponse> listener = new ActionListener<AcknowledgedResponse>() {
             @Override
-            public void onResponse(CloseIndexResponse closeIndexResponse) {
-                boolean acknowledged = closeIndexResponse.isAcknowledged();
+            public void onResponse(AcknowledgedResponse acknowledgedResponse) {
+                boolean acknowledged = acknowledgedResponse.isAcknowledged();
                 System.out.println(acknowledged);
             }
 
